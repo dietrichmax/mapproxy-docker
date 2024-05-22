@@ -33,6 +33,7 @@ RUN apt-get -y --purge autoremove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /mapproxy
+RUN mkdir /mapproxy/cache_data
 
 WORKDIR /mapproxy
 
@@ -46,7 +47,6 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
 
 COPY app.py .
 COPY start.sh .
-COPY env-data.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
