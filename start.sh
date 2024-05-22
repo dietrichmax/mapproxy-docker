@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /scripts/env-data.sh
+
 done=0
 trap 'done=1' TERM INT
 cd /mapproxy
@@ -8,8 +10,11 @@ groupadd mapproxy && \
 useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
 chown -R mapproxy:mapproxy /mapproxy/cache_data
 
+# Create directories
+mkdir -p "${MAPPROXY_DATA_DIR}" "${MAPPROXY_CACHE_DIR}"
+
 # create config files if they do not exist yet
-if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
+if [ ! -f "${MAPPROXY_DATA_DIR}/mapproxy.yaml" ]; then
   echo "No mapproxy configuration found. Creating one from template."
   mapproxy-util create -t base-config config
 fi

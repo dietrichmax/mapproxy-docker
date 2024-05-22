@@ -33,7 +33,6 @@ RUN apt-get -y --purge autoremove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /mapproxy
-RUN mkdir /mapproxy/cache_data
 
 WORKDIR /mapproxy
 
