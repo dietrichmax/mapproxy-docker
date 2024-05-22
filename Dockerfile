@@ -34,9 +34,6 @@ RUN apt-get -y --purge autoremove \
 
 RUN mkdir /mapproxy
 
-RUN useradd -m -u 1003 -g 1003 -o -s /bin/bash mapproxy
-USER mapproxy
-
 WORKDIR /mapproxy
 
 # fix potential issue finding correct shared library libproj (fixed in newer releases)
