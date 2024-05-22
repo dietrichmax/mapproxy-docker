@@ -34,7 +34,7 @@ RUN apt-get -y --purge autoremove \
 
 RUN mkdir /mapproxy
 
-RUN useradd -u 1003 -g 1003 mapproxy  -m -s /bin/bash
+RUN useradd -m -u 1003 -g 1003 -o -s /bin/bash mapproxy
 USER mapproxy
 
 WORKDIR /mapproxy
