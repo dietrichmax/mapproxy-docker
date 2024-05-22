@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source env-data.sh
+source ./env-data.sh
 
 done=0
 trap 'done=1' TERM INT
