@@ -8,10 +8,11 @@ cd /mapproxy
 
 groupadd mapproxy && \
 useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
-chown -R mapproxy:mapproxy /mapproxy/cache_data
 
 # Create directories
 mkdir -p "${MAPPROXY_DATA_DIR}" "${MAPPROXY_CACHE_DIR}"
+chown -R mapproxy:mapproxy "${MAPPROXY_DATA_DIR}"
+chown -R mapproxy:mapproxy "${MAPPROXY_CACHE_DIR}"
 
 # create config files if they do not exist yet
 if [ ! -f "${MAPPROXY_DATA_DIR}/mapproxy.yaml" ]; then
