@@ -6,7 +6,6 @@ cd /mapproxy
 
 groupadd mapproxy && \
 useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
-chown -R mapproxy:mapproxy /mapproxy/cache_data
 
 # create config files if they do not exist yet
 if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
