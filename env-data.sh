@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ -z "${MAPPROXY_DATA_DIR}" ]; then
     MAPPROXY_DATA_DIR=/mapproxy
 fi
