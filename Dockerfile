@@ -23,7 +23,6 @@ RUN apt update && apt -y install --no-install-recommends \
   libgeos-dev \
   python3-lxml \
   libgdal-dev \
-  python3-shapely \
   libxml2-dev libxslt-dev \
   nginx gcc
 
@@ -41,6 +40,7 @@ RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu
 
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
+    Shapely \
     pyproj && \
     pip cache purge
 
