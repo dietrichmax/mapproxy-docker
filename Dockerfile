@@ -17,12 +17,13 @@ ARG MAPPROXY_VERSION=2.0.2
 
 # install dependencies
 RUN apt update && apt -y install --no-install-recommends \
-  python3-yaml \
-  python3-pyproj \
   libgeos-dev \
-  python3-lxml \
   libgdal-dev \
   libxml2-dev libxslt-dev \
+  python3-lxml \
+  python3-pyproj \
+  python3-virtualenv \
+  python3-yaml \
   nginx gcc
 
 # cleanup
@@ -36,6 +37,10 @@ WORKDIR /mapproxy
 
 # fix potential issue finding correct shared library libproj (fixed in newer releases)
 RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu/liblibproj.so
+
+# create a new virtual environment
+RUN virtualenv --system-site-packages mapproxy
+RUN source mapproxy/bin/activate
 
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
