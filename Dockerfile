@@ -1,5 +1,5 @@
 #### Base Image
-FROM python:3.10-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 # Copyright © 2024 Max Dietrich <mail@mxd.codes>. All rights reserved.
 
@@ -17,7 +17,6 @@ ARG MAPPROXY_VERSION=2.0.2
 
 # install dependencies
 RUN apt update && apt -y install --no-install-recommends \
-  python3-pil \
   python3-yaml \
   python3-pyproj \
   libgeos-dev \
@@ -41,6 +40,7 @@ RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
     Shapely \
+    Pillow \
     pyproj && \
     pip cache purge
 
