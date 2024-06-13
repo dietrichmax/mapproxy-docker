@@ -32,7 +32,6 @@ RUN apt-get -y --purge autoremove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /mapproxy
-
 WORKDIR /mapproxy
 
 # fix potential issue finding correct shared library libproj (fixed in newer releases)
