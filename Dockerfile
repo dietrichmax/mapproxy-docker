@@ -21,7 +21,6 @@ RUN apt update && apt -y install --no-install-recommends \
   libgdal-dev \
   libxml2-dev libxslt-dev \
   python3-lxml \
-  python3-pyproj \
 #  python3-virtualenv \
   python3-yaml \
   nginx gcc
