@@ -56,4 +56,4 @@ RUN chmod +x ./entrypoint.sh
 
 EXPOSE 80
 
-CMD ["/usr/local/bin/uwsgi", "--ini", "/mapproxy/uwsgi.conf", "&&", "/usr/sbin/nginx", "daemon off;"]
+ENTRYPOINT ["bash", "-c", "./start.sh"]
