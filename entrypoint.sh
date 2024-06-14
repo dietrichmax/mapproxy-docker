@@ -6,10 +6,10 @@ cd /mapproxy
 # Mapproxy user
 ###
 
-USERSER_ID=${MAPPROXY_USER_ID:-1003}
-GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
 USER_NAME=${USER:-mapproxy}
+USER_ID=${MAPPROXY_USER_ID:-1003}
 GROUP_NAME=${GROUP_NAME:-mapproxy}
+GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
 
 # Add group
 if [ ! $(getent group "${GROUP_NAME}") ]; then
