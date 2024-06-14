@@ -48,12 +48,12 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
     pip cache purge
 
 COPY app.py .
-COPY start.sh .
+COPY entrypoint.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
-RUN chmod +x ./start.sh
+RUN chmod +x ./entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["bash", "-c", "./start.sh"]
+CMD ["/usr/local/bin/uwsgi", "--ini", "/mapproxy/uwsgi.conf", "&&", "/usr/sbin/nginx", "-g", "daemon off;"]

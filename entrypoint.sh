@@ -2,8 +2,6 @@
 
 source /scripts/env-data.sh
 
-done=0
-trap 'done=1' TERM INT
 cd /mapproxy
 
 groupadd mapproxy && \
@@ -16,7 +14,6 @@ if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
   mapproxy-util create -t base-config config
 fi
 
-# entrypoint logic
 
 if [[ "${ALLOW_LISTING}" =~ [Tt][Rr][Uu][Ee] ]]; then
   export ALLOW_LISTING=True
@@ -24,10 +21,4 @@ else
   export ALLOW_LISTING=False
 fi
 
-service nginx restart &&
-su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
-
-while [ $done = 0 ]; do
-  sleep 1 &
-  wait
-done
+su mapproxy -c "$@"
