@@ -19,4 +19,4 @@ else
   export ALLOW_LISTING=False
 fi
 
-su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf && /usr/sbin/nginx daemon off
+su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf && /usr/sbin/nginx daemon off"
