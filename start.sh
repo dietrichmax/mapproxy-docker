@@ -1,7 +1,5 @@
 #!/bin/bash
 
-done=0
-trap 'done=1' TERM INT
 cd /mapproxy
 
 # Add group
@@ -33,8 +31,3 @@ service nginx restart -g 'daemon off;'
 
 echo "Starting Mapproxy"
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
-
-while [ $done = 0 ]; do
-  sleep 1 &
-  wait
-done
