@@ -20,7 +20,9 @@ fi
 
 # fix permissions
 chown -R mapproxy:mapproxy /mapproxy/
+echo "fixed permission"
 
 # start mapproxy and nginx
 service nginx restart -g 'daemon off;' 
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
+echo "Started Mapproxy"
