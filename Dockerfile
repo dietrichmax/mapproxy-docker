@@ -51,7 +51,7 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
     pip cache purge
 
 COPY app.py .
-COPY start.sh .
+#COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
