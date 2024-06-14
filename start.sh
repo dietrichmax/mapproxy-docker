@@ -15,7 +15,7 @@ if ! id -u mapproxy >/dev/null 2>&1; then
 fi
 
 # fix permissions
-chown -R mapproxy:mapproxy /mapproxy/config_cache_data
+chown -R mapproxy:mapproxy /mapproxy/*
 
 # create config files if they do not exist yet
 if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
