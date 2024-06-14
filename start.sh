@@ -1,23 +1,15 @@
 #!/bin/bash
 
-USER_NAME=${USER:-mapproxy}
-USER_ID=${MAPPROXY_USER_ID:-1003}
-GROUP_NAME=${GROUP_NAME:-mapproxy}
-GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
-
-done=0
-trap 'done=1' TERM INT
-
 cd /mapproxy
 
 # Add group
-if [ ! $(getent group "${GROUP_NAME}") ]; then
-  groupadd -r "${GROUP_NAME}" -g "${GROUP_ID}"
+if [ ! $(getent group mapproxy) ]; then
+  groupadd -r "mapproxy -g 1003"
 fi
 
 # Add user to system
-if ! id -u "${USER_NAME}" >/dev/null 2>&1; then
-  useradd -l -m -d /home/"${USER_NAME}"/ -u "${USER_ID}" --gid "${GROUP_ID}" -s /bin/bash -G "${GROUP_NAME}" "${USER_NAME}"
+if ! id -u 1003 >/dev/null 2>&1; then
+  useradd -l -m -d /home/mapproxy/ -u 1003 --gid 1003 -s /bin/bash -G mapproxy mapproxy
 fi
 
 # create config files if they do not exist yet
@@ -29,8 +21,6 @@ fi
 # fix permissions
 chown -R mapproxy:mapproxy /mapproxy/
 
-
-while [ $done = 0 ]; do
-  sleep 1 &
-  wait
-done
+# start mapproxy and nginx
+service nginx restart -g 'daemon off;' 
+su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
