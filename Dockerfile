@@ -52,6 +52,8 @@ COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
+RUN chmod +x ./entrypoint.sh
+
 EXPOSE 80
 
 ENTRYPOINT ["bash", "-c", "./start.sh"]
