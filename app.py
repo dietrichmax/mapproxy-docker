@@ -7,4 +7,4 @@
 # fileConfig(r'/mapproxy/config/log.ini', {'here': os.path.dirname(__file__)})
 
 from mapproxy.multiapp import make_wsgi_app
-application = make_wsgi_app("/mapproxy/config/", allow_listing=${ALLOW_LISTING})
+application = make_wsgi_app("/mapproxy/config/", allow_listing=True)
