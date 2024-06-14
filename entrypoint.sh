@@ -31,5 +31,5 @@ fi
 chown -R mapproxy:mapproxy /mapproxy/
 
 # start mapproxy and nginx
-service nginx restart #-g 'daemon off;'
-su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf"
+service nginx restart -g 'daemon off;' &&
+su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
