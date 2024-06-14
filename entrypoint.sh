@@ -1,5 +1,8 @@
 #!/bin/bash
 
+done=0
+trap 'done=1' TERM INT
+
 cd /mapproxy
 
 ###
@@ -33,3 +36,9 @@ chown -R mapproxy:mapproxy /mapproxy/
 # start mapproxy and nginx
 service nginx restart -g 'daemon off;' &&
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
+
+
+while [ $done = 0 ]; do
+  sleep 1 &
+  wait
+done
