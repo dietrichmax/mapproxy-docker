@@ -8,13 +8,13 @@ GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
 cd /mapproxy
 
 # Add group
-if [ ! $(getent group "${GROUP_NAME}") ]; then
-  groupadd -r "${GROUP_NAME}" -g "${GROUP_ID}"
+if [ ! $(getent group mapproxy) ]; then
+  groupadd mapproxy
 fi
 
 # Add user to system
-if ! id -u "${USER_NAME}" >/dev/null 2>&1; then
-  useradd -l -m -d /home/"${USER_NAME}"/ -u "${USER_ID}" --gid "${GROUP_ID}" -s /bin/bash -G "${GROUP_NAME}" "${USER_NAME}"
+if ! id -u mapproxy >/dev/null 2>&1; then
+  useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy
 fi
 
 # create config files if they do not exist yet
@@ -25,7 +25,6 @@ fi
 
 # fix permissions
 chown -R mapproxy:mapproxy /mapproxy/
-echo "fixed permission"
 
 # start mapproxy and nginx
 service nginx restart -g 'daemon off;' 
