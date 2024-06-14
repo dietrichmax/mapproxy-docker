@@ -2,9 +2,25 @@
 
 cd /mapproxy
 
-groupadd mapproxy && \
-useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
-chown -R mapproxy:mapproxy /mapproxy/
+###
+# Mapproxy user
+###
+
+USERSER_ID=${MAPPROXY_USER_ID:-1003}
+GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
+USER_NAME=${USER:-mapproxy}
+GROUP_NAME=${GROUP_NAME:-mapproxy}
+
+# Add group
+if [ ! $(getent group "${GROUP_NAME}") ]; then
+  groupadd -r "${GROUP_NAME}" -g "${GROUP_ID}"
+fi
+
+# Add user to system
+if ! id -u "${USER_NAME}" >/dev/null 2>&1; then
+  useradd -l -m -d /home/"${USER_NAME}"/ -u "${USER_ID}" --gid "${GROUP_ID}" -s /bin/bash -G "${GROUP_NAME}" "${USER_NAME}"
+fi
+
 
 # create config files if they do not exist yet
 if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
@@ -12,11 +28,8 @@ if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
   mapproxy-util create -t base-config config
 fi
 
+# fix permissions
+chown -R mapproxy:mapproxy /mapproxy/
 
-if [[ "${ALLOW_LISTING}" =~ [Tt][Rr][Uu][Ee] ]]; then
-  export ALLOW_LISTING=True
-else
-  export ALLOW_LISTING=False
-fi
-
-su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf && /usr/sbin/nginx daemon off"
+# start mapproxy and nginx
+su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf && /usr/sbin/nginx -g 'daemon off;'"
