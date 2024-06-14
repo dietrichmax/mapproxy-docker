@@ -14,6 +14,14 @@ if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
   mapproxy-util create -t base-config config
 fi
 
+# entrypoint logic
+
+if [[ "${ALLOW_LISTING}" =~ [Tt][Rr][Uu][Ee] ]]; then
+  export ALLOW_LISTING=True
+else
+  export ALLOW_LISTING=False
+fi
+
 service nginx restart &&
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
 
