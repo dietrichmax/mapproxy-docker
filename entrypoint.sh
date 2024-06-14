@@ -1,18 +1,14 @@
 #!/bin/bash
 
-done=0
-trap 'done=1' TERM INT
-
-cd /mapproxy
-
-###
-# Mapproxy user
-###
-
 USER_NAME=${USER:-mapproxy}
 USER_ID=${MAPPROXY_USER_ID:-1003}
 GROUP_NAME=${GROUP_NAME:-mapproxy}
 GROUP_ID=${MAPPROXY_GROUP_ID:-1003}
+
+done=0
+trap 'done=1' TERM INT
+
+cd /mapproxy
 
 # Add group
 if [ ! $(getent group "${GROUP_NAME}") ]; then
@@ -34,7 +30,7 @@ fi
 chown -R mapproxy:mapproxy /mapproxy/
 
 # start mapproxy and nginx
-service nginx restart -g 'daemon off;' &&
+service nginx restart && #-g 'daemon off;' 
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
 
 
