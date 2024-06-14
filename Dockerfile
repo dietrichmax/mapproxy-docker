@@ -56,4 +56,4 @@ RUN chmod +x ./entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["bash", "-c", "./start.sh"]
+ENTRYPOINT ["bash", "-c", "./entrypoint.sh"]
