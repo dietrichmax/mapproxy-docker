@@ -14,6 +14,9 @@ LABEL org.opencontainers.image.authors="Max Dietrich <mail@mxd.codes>"
 LABEL org.opencontainers.image.vendor="Max Dietrich"
 
 ARG MAPPROXY_VERSION=2.0.2
+ARG UNAME=mapproxy
+ARG UID=1003
+ARG GID=1003
 
 # install dependencies
 RUN apt update && apt -y install --no-install-recommends \
@@ -52,11 +55,10 @@ COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
-RUN chmod +x ./start.sh
+RUN groupadd -g $GID $UNAME
+RUN useradd -m -u $UID -g $GID -s /bin/bash $UNAME
+USER $UNAME
 
 EXPOSE 80
 
 CMD ["/usr/local/bin/uwsgi", "--ini", "/mapproxy/uwsgi.conf", "&&", "/usr/sbin/nginx", "-g", "daemon off;"]
-
-#ENTRYPOINT ["bash", "-c", "./start.sh"]
-
