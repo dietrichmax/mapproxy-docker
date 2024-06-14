@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source /env-data.sh
-
 cd /mapproxy
 
 groupadd mapproxy && \
