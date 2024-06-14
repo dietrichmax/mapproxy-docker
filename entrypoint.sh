@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /scripts/env-data.sh
+source /env-data.sh
 
 cd /mapproxy
 
