@@ -14,14 +14,14 @@ if ! id -u mapproxy >/dev/null 2>&1; then
   useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy
 fi
 
-# fix permissions
-chown -R mapproxy:mapproxy /mapproxy/ /mapproxy/config/ /mapproxy/config/./cache_data/
-
 # create config files if they do not exist yet
 if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
   echo "No mapproxy configuration found. Creating one from template."
   mapproxy-util create -t base-config config
 fi
+
+# fix permissions
+chown -R mapproxy:mapproxy /mapproxy/ /mapproxy/config/ /mapproxy/config/./cache_data/
 
 # start mapproxy and nginx
 service nginx restart -g 'daemon off;' 
