@@ -13,7 +13,7 @@ LABEL org.opencontainers.image.documentation=""
 LABEL org.opencontainers.image.authors="Max Dietrich <mail@mxd.codes>"
 LABEL org.opencontainers.image.vendor="Max Dietrich"
 
-ARG MAPPROXY_VERSION=1.16.0
+ARG MAPPROXY_VERSION=2.0.2
 
 # install dependencies
 RUN apt update && apt -y install --no-install-recommends \
