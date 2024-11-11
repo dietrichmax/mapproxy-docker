@@ -24,8 +24,7 @@ RUN apt update && apt -y install --no-install-recommends \
   nginx gcc
 
 # Start and enable SSH
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends dialog \
+RUN apt-get install -y --no-install-recommends dialog \
     && apt-get install -y --no-install-recommends openssh-server \
     && echo "root:Docker!" | chpasswd
 COPY sshd_config /etc/ssh/
