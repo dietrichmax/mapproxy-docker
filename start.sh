@@ -21,7 +21,7 @@ if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
 fi
 
 # fix permissions
-chown -R mapproxy:mapproxy /mapproxy/ /mapproxy/config/ /mapproxy/config/./cache_data/
+chown -R mapproxy:mapproxy /mapproxy/ /mapproxy/config/ /mapproxy/cache_data/
 
 # start mapproxy and nginx
 service nginx restart -g 'daemon off;' 
