@@ -23,6 +23,12 @@ RUN apt update && apt -y install --no-install-recommends \
 #  python3-virtualenv \
   nginx gcc
 
+# Start and enable SSH
+RUN apt-get install -y --no-install-recommends dialog \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && echo "root:Docker!" | chpasswd
+COPY sshd_config /etc/ssh/
+
 # cleanup
 RUN apt-get -y --purge autoremove \
 && apt-get clean \
@@ -54,6 +60,6 @@ COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
 RUN chmod +x ./start.sh
 
-EXPOSE 80
+EXPOSE 80 2222
 
 ENTRYPOINT ["bash", "-c", "./start.sh"]

@@ -4,6 +4,8 @@ done=0
 trap 'done=1' TERM INT
 cd /mapproxy
 
+service ssh start
+
 # Add group
 if [ ! $(getent group mapproxy) ]; then
   groupadd mapproxy
