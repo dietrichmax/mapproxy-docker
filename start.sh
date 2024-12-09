@@ -26,7 +26,7 @@ if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
 fi
 
 # fix permissions
-#chown -R mapproxy:mapproxy /mapproxy/ /mapproxy/config/ /mapproxy/cache_data/
+#chown -R mapproxy:mapproxy /mapproxy/
 #echo "Fixed permissions"
 
 # start nginx
@@ -34,6 +34,7 @@ service nginx restart -g 'daemon off;'
 echo "Started Nginx"
 
 # start mapproxy
+/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &
 su mapproxy -c "/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &"
 echo "Started Mapproxy"
 
