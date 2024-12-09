@@ -20,6 +20,7 @@ RUN apt update && apt -y install --no-install-recommends \
   libgeos-dev \
   libgdal-dev \
   libxml2-dev libxslt-dev \
+  screen \
 #  python3-virtualenv \
   nginx gcc
 
