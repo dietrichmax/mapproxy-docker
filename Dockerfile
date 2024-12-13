@@ -21,10 +21,9 @@ RUN apt update && apt -y install --no-install-recommends \
   libgdal-dev \
   libxml2-dev libxslt-dev \
   screen \
-#  python3-virtualenv \
   nginx gcc
 
-# Start and enable SSH
+# install SSH
 RUN apt-get install -y --no-install-recommends dialog \
     && apt-get install -y --no-install-recommends openssh-server \
     && echo "root:Docker!" | chpasswd
@@ -36,14 +35,14 @@ RUN apt-get -y --purge autoremove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /mapproxy
+
+RUN groupadd mapproxy && \
+    useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
+    chown -R mapproxy:mapproxy /mapproxy
+ 
+# USER mapproxy:mapproxy
+
 WORKDIR /mapproxy
-
-# fix potential issue finding correct shared library libproj (fixed in newer releases)
-RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu/liblibproj.so
-
-# create a new virtual environment
-#RUN virtualenv --system-site-packages mapproxy
-#RUN source mapproxy/bin/activate
 
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
@@ -54,13 +53,23 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
     pyproj && \
     pip cache purge
 
+#USER root:root
+
 COPY app.py .
 COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
-RUN chmod +x ./start.sh
+#RUN chown -R mapproxy:mapproxy /var/log/nginx \
+#    && chown -R mapproxy:mapproxy /var/lib/nginx \
+#    && chown -R mapproxy:mapproxy /etc/nginx/conf.d \
+#    && touch /var/run/nginx.pid \
+#    && chown -R mapproxy:mapproxy /var/run/nginx.pid
 
 EXPOSE 80 2222
+
+#USER mapproxy:mapproxy
+
+RUN chmod +x ./start.sh
 
 ENTRYPOINT ["bash", "-c", "./start.sh"]
