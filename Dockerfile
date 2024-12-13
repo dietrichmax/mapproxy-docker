@@ -1,5 +1,5 @@
 #### Base Image
-FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm AS base-libs
 
 # Copyright © 2024 Max Dietrich <mail@mxd.codes>. All rights reserved.
 
@@ -34,15 +34,19 @@ RUN apt-get -y --purge autoremove \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
+FROM base-libs AS base
+
 RUN mkdir /mapproxy
 
 RUN groupadd mapproxy && \
     useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
     chown -R mapproxy:mapproxy /mapproxy
- 
-# USER mapproxy:mapproxy
+
+USER mapproxy:mapproxy
 
 WORKDIR /mapproxy
+
+ENV PATH="${PATH}:/mapproxy/.local/bin"
 
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
@@ -53,23 +57,23 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
     pyproj && \
     pip cache purge
 
-#USER root:root
-
 COPY app.py .
 COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
-#RUN chown -R mapproxy:mapproxy /var/log/nginx \
-#    && chown -R mapproxy:mapproxy /var/lib/nginx \
-#    && chown -R mapproxy:mapproxy /etc/nginx/conf.d \
-#    && touch /var/run/nginx.pid \
-#    && chown -R mapproxy:mapproxy /var/run/nginx.pid
-
 EXPOSE 80 2222
 
-#USER mapproxy:mapproxy
+USER root:root
 
-RUN chmod +x ./start.sh
+RUN chown -R mapproxy:mapproxy /var/log/nginx \
+    && chown -R mapproxy:mapproxy /var/lib/nginx \
+    && chown -R mapproxy:mapproxy /etc/nginx/conf.d \
+    && touch /var/run/nginx.pid \
+    && chown -R mapproxy:mapproxy /var/run/nginx.pid
 
-ENTRYPOINT ["bash", "-c", "./start.sh"]
+USER mapproxy:mapproxy
+
+#RUN chmod +x ./start.sh
+
+CMD ["./start.sh"]

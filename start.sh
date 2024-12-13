@@ -12,7 +12,7 @@ service nginx restart -g 'daemon off;'
 echo "Started Nginx"
 
 # start mapproxy
-/usr/local/bin/uwsgi --ini /mapproxy/uwsgi.conf &
+uwsgi --ini /mapproxy/uwsgi.conf &
 echo "Started Mapproxy"
 
 while [ $done = 0 ]; do
