@@ -5,7 +5,5 @@ This will build a [docker](http://www.docker.com/) image that runs [mapproxy
 
 Configurations have to be placed into "/mapproxy/config"
 
-## TBD: Environment variables (optional)
-- MAPPROXY_CONFIG_DIR=/mapproxy/config
-- MAPPROXY_CACHE_DIR=/mapproxy/cache_data
-- ALLOW_LISTING=True
+## Optional:
+You can map volumes to ```/mapproxy/config``` and ```/mapproxy/cache_data```.
