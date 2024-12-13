@@ -36,10 +36,14 @@ RUN apt-get -y --purge autoremove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /mapproxy
-WORKDIR /mapproxy
 
-# fix potential issue finding correct shared library libproj (fixed in newer releases)
-RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu/liblibproj.so
+RUN groupadd mapproxy && \
+    useradd --home-dir /mapproxy -s /bin/bash -g mapproxy mapproxy && \
+    chown -R mapproxy:mapproxy /mapproxy
+
+USER mapproxy:mapproxy
+
+WORKDIR /mapproxy
 
 # create a new virtual environment
 #RUN virtualenv --system-site-packages mapproxy
@@ -59,8 +63,18 @@ COPY start.sh .
 COPY uwsgi.conf .
 COPY nginx-default.conf /etc/nginx/sites-enabled/default
 
+EXPOSE 80 2222
+
+USER root:root
+
+RUN chown -R mapproxy:mapproxy /var/log/nginx \
+    && chown -R mapproxy:mapproxy /var/lib/nginx \
+    && chown -R mapproxy:mapproxy /etc/nginx/conf.d \
+    && touch /var/run/nginx.pid \
+    && chown -R mapproxy:mapproxy /var/run/nginx.pid
+
 RUN chmod +x ./start.sh
 
-EXPOSE 80 2222
+USER mapproxy:mapproxy
 
 ENTRYPOINT ["bash", "-c", "./start.sh"]

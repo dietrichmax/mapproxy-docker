@@ -7,13 +7,6 @@ cd /mapproxy
 service ssh start
 echo "Started ssh service"
 
-# create config files if they do not exist yet
-if [ ! -f /mapproxy/config/mapproxy.yaml ]; then
-  echo "No mapproxy configuration found. Creating one from template."
-  mapproxy-util create -t base-config config
-fi
-
-
 # start nginx
 service nginx restart -g 'daemon off;' 
 echo "Started Nginx"
