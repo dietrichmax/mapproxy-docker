@@ -72,8 +72,8 @@ RUN chown -R mapproxy:mapproxy /var/log/nginx \
     && touch /var/run/nginx.pid \
     && chown -R mapproxy:mapproxy /var/run/nginx.pid
 
-USER mapproxy:mapproxy
-
 RUN chmod +x ./start.sh
+
+USER mapproxy:mapproxy
 
 CMD ["./start.sh"]
