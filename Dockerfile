@@ -21,7 +21,6 @@ RUN apt update && apt -y install --no-install-recommends \
   libgdal-dev \
   libxml2-dev libxslt-dev \
   screen \
-#  python3-virtualenv \
   nginx gcc
 
 # Start and enable SSH
@@ -37,13 +36,6 @@ RUN apt-get -y --purge autoremove \
 
 RUN mkdir /mapproxy
 WORKDIR /mapproxy
-
-# fix potential issue finding correct shared library libproj (fixed in newer releases)
-RUN ln -s /usr/lib/`uname -m`-linux-gnu/libproj.so /usr/lib/`uname -m`-linux-gnu/liblibproj.so
-
-# create a new virtual environment
-#RUN virtualenv --system-site-packages mapproxy
-#RUN source mapproxy/bin/activate
 
 RUN pip install MapProxy==$MAPPROXY_VERSION \
     uwsgi \
