@@ -74,6 +74,9 @@ RUN chown -R mapproxy:mapproxy /var/log/nginx \
 
 RUN chmod +x ./start.sh
 
+# Start ssh server
+CMD ["/usr/sbin/sshd", "-D"]
+
 USER mapproxy:mapproxy
 
 CMD ["./start.sh"]
