@@ -18,18 +18,18 @@ This repository provides a Docker image for [MapProxy](https://mapproxy.org/) wi
 
 ## 🚀 How to Use
 
-### 🏗️ Build the Docker Image  
+### Build the Docker Image  
 ```bash
 docker build -t mapproxy-docker .
 ```
 
-### ▶️ Run the Docker Image  
+### Run the Docker Image  
 ```bash
 docker run -p 80:80 -p 2222:2222 --name mapproxy mapproxy-docker
 ```
 This will start the MapProxy service and expose it on port `80`. SSH will be available on port `2222`.
 
-### 🌍 Access the Application  
+### Access the Application  
 - Open a browser and navigate to:  
   👉 **`http://localhost`**  
 
@@ -38,7 +38,7 @@ This will start the MapProxy service and expose it on port `80`. SSH will be ava
   ssh root@localhost -p 2222
   ```
 
-### ⚙️ Configuration Files  
+### Configuration Files  
 - The **MapProxy configuration files** are located in `/mapproxy/config`.  
 - If no `.yaml` configuration file is found, one will be **created automatically** using `mapproxy-util`.  
 
