@@ -50,6 +50,8 @@ You can configure the following environment variables to customize the behavior 
 
 | Environment Variable       | Description                                                                                                  | Default Value            |
 |------------------------------|------------------------------------------------------------------------------------------------------------|--------------------------|
+| `UWSGI_PROCESSES`            | Specifies how much processes MapProxy should use.                                                          | `available cores`        |
+| `UWSGI_THREADS`              | Specifies how much threads MapProxy should use.                                                            | `UWSGI_PROCESSES * 2`    |
 | `MAPPROXY_CONFIG_DATA_PATH`  | Path to the **MapProxy configuration** directory where `.yaml` files are located.                          | `/mapproxy/config`       |
 | `MAPPROXY_CACHE_DATA_PATH`   | Path to the **MapProxy cache** directory.                                                                  | `/mapproxy/cache_data`   |
 | `MAPPROXY_ALLOW_LISTING`     | Determines if the `/config` directory should be **publicly listed** (`True` or `False`, case-insensitive). | `False`                  |
