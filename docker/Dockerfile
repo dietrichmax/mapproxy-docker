@@ -40,6 +40,7 @@ RUN ln -s /usr/lib/$(uname -m)-linux-gnu/libproj.so /usr/lib/$(uname -m)-linux-g
 
 # Install Python dependencies in a single RUN command to reduce image layers
 RUN pip install MapProxy==$MAPPROXY_VERSION \
+    requests \
     uwsgi \
     Shapely \
     Pillow \
@@ -62,9 +63,12 @@ RUN chmod +x start.sh
 # Expose ports
 EXPOSE 80 2222
 
+# Copy the health check script
+COPY ./build/health_check.py /mapproxy/health_check.py
+
 # Health check to ensure MapProxy is running and accessible
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD curl --silent --fail http://localhost:80/health || exit 1
+  CMD python /mapproxy/health_check.py || exit 1
 
 # Use ENTRYPOINT to execute the start.sh script
 ENTRYPOINT ["bash", "-c", "./start.sh"]
