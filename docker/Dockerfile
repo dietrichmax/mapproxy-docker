@@ -46,6 +46,8 @@ RUN pip install MapProxy==$MAPPROXY_VERSION \
     lxml \
     pyyaml \
     pyproj \
+    redis \
+    azure-storage-blob \
     && pip cache purge
 
 # Copy application and configuration files
@@ -59,6 +61,10 @@ RUN chmod +x start.sh
 
 # Expose ports
 EXPOSE 80 2222
+
+# Health check to ensure MapProxy is running and accessible
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD curl --silent --fail http://localhost:80/health || exit 1
 
 # Use ENTRYPOINT to execute the start.sh script
 ENTRYPOINT ["bash", "-c", "./start.sh"]
