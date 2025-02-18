@@ -16,7 +16,7 @@ ARG MAPPROXY_VERSION=3.1.3
 
 # Use secret mounts for build-time secrets
 RUN --mount=type=secret,id=ROOT_PASSWORD \
-    export ROOT_PASSWORD=$(cat /run/secrets/ROOT_PASSWORD) && \
+    export ROOT_PASSWORD=$(cat /run/secrets/ROOT_PASSWORD)
 
 # Install dependencies in a single RUN command to reduce image layers
 RUN apt update && apt -y install --no-install-recommends \
