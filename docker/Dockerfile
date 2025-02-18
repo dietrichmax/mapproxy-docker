@@ -14,12 +14,10 @@ LABEL org.opencontainers.image.title="mapproxy-docker" \
 # Set build-time argument for MapProxy version
 ARG MAPPROXY_VERSION=3.1.3
 
-# Use secret mounts for build-time secrets
+# Enable BuildKit secret mount for the root password
 RUN --mount=type=secret,id=ROOT_PASSWORD \
-    export ROOT_PASSWORD=$(cat /run/secrets/ROOT_PASSWORD)
-
-# Install dependencies in a single RUN command to reduce image layers
-RUN apt update && apt -y install --no-install-recommends \
+    ROOT_PASSWORD=$(cat /run/secrets/ROOT_PASSWORD) && \
+    apt update && apt -y install --no-install-recommends \
     libgeos-dev \
     libgdal-dev \
     libxml2-dev libxslt-dev \
