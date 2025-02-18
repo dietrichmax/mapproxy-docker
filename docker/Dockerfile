@@ -14,6 +14,9 @@ LABEL org.opencontainers.image.title="mapproxy-docker" \
 # Set build-time argument for MapProxy version
 ARG MAPPROXY_VERSION=3.1.3
 
+# Set environment variable
+ENV ROOT_PASSWORD=${ROOT_PASSWORD}
+
 # Install dependencies in a single RUN command to reduce image layers
 RUN apt update && apt -y install --no-install-recommends \
     libgeos-dev \
@@ -24,7 +27,7 @@ RUN apt update && apt -y install --no-install-recommends \
     nginx \
     gcc \
     openssh-server \
-    && echo "root:Docker!" | chpasswd \
+    && echo "root:${ROOT_PASSWORD}" | chpasswd \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
