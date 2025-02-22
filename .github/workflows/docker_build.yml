@@ -45,5 +45,3 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME}}/mapproxy-docker:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}:latest
-          secrets: |
-            "ROOT_PASSWORD=${{ secrets.ROOT_PASSWORD }}"
