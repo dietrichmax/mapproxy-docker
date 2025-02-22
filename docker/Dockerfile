@@ -14,10 +14,8 @@ LABEL org.opencontainers.image.title="mapproxy-docker" \
 # Set build-time argument for MapProxy version
 ARG MAPPROXY_VERSION=3.1.3
 
-# Enable BuildKit secret mount for the root password
-RUN --mount=type=secret,id=ROOT_PASSWORD \
-    ROOT_PASSWORD=$(cat /run/secrets/ROOT_PASSWORD) && \
-    apt update && apt -y install --no-install-recommends \
+# Install dependencies in a single RUN command to reduce image layers
+RUN apt update && apt -y install --no-install-recommends \
     libgeos-dev \
     libgdal-dev \
     libxml2-dev libxslt-dev \
@@ -26,7 +24,7 @@ RUN --mount=type=secret,id=ROOT_PASSWORD \
     nginx \
     gcc \
     openssh-server \
-    && echo "root:${ROOT_PASSWORD}" | chpasswd \
+    && echo "root:Docker!" | chpasswd \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -42,15 +40,12 @@ RUN ln -s /usr/lib/$(uname -m)-linux-gnu/libproj.so /usr/lib/$(uname -m)-linux-g
 
 # Install Python dependencies in a single RUN command to reduce image layers
 RUN pip install MapProxy==$MAPPROXY_VERSION \
-    requests \
     uwsgi \
     Shapely \
     Pillow \
     lxml \
     pyyaml \
     pyproj \
-    redis \
-    azure-storage-blob \
     && pip cache purge
 
 # Copy application and configuration files
@@ -64,13 +59,6 @@ RUN chmod +x start.sh
 
 # Expose ports
 EXPOSE 80 2222
-
-# Copy the health check script
-COPY ./build/health_check.py /mapproxy/health_check.py
-
-# Health check to ensure MapProxy is running and accessible
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD python /mapproxy/health_check.py || exit 1
 
 # Use ENTRYPOINT to execute the start.sh script
 ENTRYPOINT ["bash", "-c", "./start.sh"]
