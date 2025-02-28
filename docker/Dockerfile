@@ -23,13 +23,8 @@ RUN apt update && apt -y install --no-install-recommends \
     gettext \
     nginx \
     gcc \
-    openssh-server \
-    && echo "root:Docker!" | chpasswd \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
-
-# SSH configuration (if needed, otherwise this can be omitted)
-COPY ./conf/sshd_config /etc/ssh/
 
 # Set up MapProxy working directory
 RUN mkdir /mapproxy

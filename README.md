@@ -12,8 +12,6 @@
 
 This repository provides a Docker image for [MapProxy](https://mapproxy.org/) with Nginx, a powerful tile cache and web mapping service.  
 
-⚠ **Note**: This Docker image is designed to run on **Azure App Service**. Do not use this image for any other public service without SSH modifications unless you are sure you want to!  
-
 ---
 
 ## 🚀 How to Use
@@ -25,7 +23,7 @@ docker build -t mapproxy-docker .
 
 ### Run the Docker Image  
 ```bash
-docker run -p 80:80 -p 2222:2222 --name mapproxy mapproxy-docker
+docker run -p 80:80 --name mapproxy mapproxy-docker
 ```
 This will start the MapProxy service and expose it on port `80`. SSH will be available on port `2222`.
 
@@ -33,9 +31,9 @@ This will start the MapProxy service and expose it on port `80`. SSH will be ava
 - Open a browser and navigate to:  
   👉 **`http://localhost`**  
 
-- SSH into the container using:  
+- Access container using:  
   ```bash
-  ssh root@localhost -p 2222
+  docker exec -ti mapproxy /bin/bash
   ```
 
 ### Configuration Files  
@@ -62,7 +60,6 @@ You can configure the following environment variables to customize the behavior 
 
 - 🗺️ **MapProxy Application**: Located in `/mapproxy/app.py`  
 - 🛠 **Start Script**: `/mapproxy/start.sh` to initialize **MapProxy, Nginx, and SSH**.  
-- 📜 **Nginx Configuration**: `/etc/nginx/sites-enabled/default` for serving the application.  
-- 🔑 **SSH Configuration**: `/etc/ssh/sshd_config` for SSH access.  
+- 📜 **Nginx Configuration**: `/etc/nginx/sites-enabled/default` for serving the application.
 
 ---
