@@ -25,7 +25,7 @@ docker build -t mapproxy-docker .
 ```bash
 docker run -p 80:80 --name mapproxy mapproxy-docker
 ```
-This will start the MapProxy service and expose it on port `80`. SSH will be available on port `2222`.
+This will start the MapProxy service and expose it on port `80`.
 
 ### Access the Application  
 - Open a browser and navigate to:  
@@ -59,7 +59,7 @@ You can configure the following environment variables to customize the behavior 
 ## 📂 Files in the Image
 
 - 🗺️ **MapProxy Application**: Located in `/mapproxy/app.py`  
-- 🛠 **Start Script**: `/mapproxy/start.sh` to initialize **MapProxy, Nginx, and SSH**.  
+- 🛠 **Start Script**: `/mapproxy/start.sh` to initialize **MapProxy, Nginx**.  
 - 📜 **Nginx Configuration**: `/etc/nginx/sites-enabled/default` for serving the application.
 
 ---
