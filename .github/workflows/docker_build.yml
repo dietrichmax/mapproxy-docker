@@ -43,5 +43,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME}}/mapproxy-docker:${{ github.sha }}
             ${{ secrets.DOCKER_HUB_USERNAME}}/mapproxy-docker:latest
+            ${{ secrets.DOCKER_HUB_USERNAME}}/mapproxy-docker:${{ github.ref_name }}
             ghcr.io/${{ github.repository }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
