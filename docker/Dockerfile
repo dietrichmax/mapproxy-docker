@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.title="mapproxy-docker" \
       org.opencontainers.image.vendor="Max Dietrich"
 
 # Set build-time argument for MapProxy version
-ARG MAPPROXY_VERSION=4.1.2
+ARG MAPPROXY_VERSION=5.0.0
 ENV MAPPROXY_VERSION=${MAPPROXY_VERSION}
 
 # Install dependencies in a single RUN command to reduce image layers
