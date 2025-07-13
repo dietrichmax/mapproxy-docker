@@ -56,5 +56,7 @@ RUN chmod +x start.sh
 # Expose ports
 EXPOSE 80 2222
 
+HEALTHCHECK CMD curl --fail http://localhost || exit 1
+
 # Use ENTRYPOINT to execute the start.sh script
 ENTRYPOINT ["bash", "-c", "./start.sh"]
