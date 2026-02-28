@@ -1,0 +1,11 @@
+cli:
+  - ".github/**"
+
+build:
+  - "build/**"
+
+conf:
+  - "conf/**"
+
+documentation:
+  - "README.md"

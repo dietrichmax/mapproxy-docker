@@ -1,0 +1,6 @@
+config
+.github
+.git
+.gitignore
+LICENSE
+*.md

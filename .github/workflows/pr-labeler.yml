@@ -1,0 +1,17 @@
+name: "Auto-label CI/CD Changes"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply Labels
+        uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
