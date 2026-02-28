@@ -11,5 +11,6 @@ minio_data/**
 .idea*
 web/index.html
 .env*
+!.env.example
 *.pem
 *.key
